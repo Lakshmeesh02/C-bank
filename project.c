@@ -51,21 +51,29 @@ acc_deets acc_open()
 void deposit(acc_deets *a)
 {
 	int temp_pin;
-	int flag3=1;
 	float amount;
-	while (flag3==1)
+	while (1)
 	{
 		printf("Enter the pin: ");
 		scanf("%d",&temp_pin);
 		if (a->pin==temp_pin)
-		flag3=0;
+		break;
 		else
 		printf("Pin unmatched \n");
 		continue;
 	}
-	printf("Amount to be deposited: ");
-	scanf("%f",&amount);
-	a->bal=a->bal+amount;
+	while(1)
+	{	printf("Amount to be deposited: ");
+		scanf("%f",&amount);
+		if(amount>=0)
+		{ a->bal=a->bal+amount;
+		  break;
+		}
+		if (amount<0)
+		{ printf("Enter a positive amount:\n");
+		  continue;
+		}
+	}
 	printf("Amount successfully deposited\n");
 	printf("Current balance: %.2f\n",a->bal);
 }
@@ -73,7 +81,6 @@ void deposit(acc_deets *a)
 void withdraw(acc_deets *a)
 {
 	int temp_pin;
-	int flag3=1;
 	float amount;
 	while (1)
 	{
@@ -85,16 +92,21 @@ void withdraw(acc_deets *a)
 		printf("Pin unmatched\n");
 		continue;
 	}
-	while (flag3==1)
+	while (1)
 	{	printf("Enter the amount to be withdrawn: \n");
 		scanf ("%f",&amount);
-		if (a->bal-amount>10000)
+		if (amount>0)
+		{ if (a->bal-amount>10000)
 		{
 			a->bal=a->bal-amount;
 			break;
 		}
 		else
 		printf("Minimum balance must be 10000\n");
+		continue;
+		}
+		else
+		printf("Enter a positive amount\n");
 		continue;
 	}
 	printf("Amount successfully withdrawn\n");
